@@ -264,6 +264,30 @@
     border-color: #1a73e8;
     color: white;
   }
+
+  .table-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #f0f2f5;
+  }
+
+  .search-input {
+    width: 220px;
+    height: 36px;
+    padding: 0 0.875rem;
+    border: 1px solid #e8ecef;
+    border-radius: 8px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 13.5px;
+    color: #2d3748;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+
+  .search-input::placeholder { color: #8b95a1; }
+  .search-input:focus { border-color: #1a73e8; }
 </style>
 </head>
 <body>
@@ -316,20 +340,18 @@
 
         <!-- List View (hidden) -->
         <div id="view-list" style="display:none">
-          <div style="display:flex;justify-content:flex-end;margin-bottom:1rem">
-            <button class="btn-filter">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <line x1="4" y1="6" x2="20" y2="6"/>
-                <line x1="8" y1="12" x2="16" y2="12"/>
-                <line x1="11" y1="18" x2="13" y2="18"/>
-              </svg>
-              Filters
-            </button>
-          </div>
-          <div style="display:flex;justify-content:flex-end;margin-bottom:1.25rem">
-            <input type="text" class="search-input" placeholder="Search Here">
-          </div>
           <div class="class-table-card">
+            <div class="table-toolbar">
+              <button class="btn-filter">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <line x1="4" y1="6" x2="20" y2="6"/>
+                  <line x1="8" y1="12" x2="16" y2="12"/>
+                  <line x1="11" y1="18" x2="13" y2="18"/>
+                </svg>
+                Filters
+              </button>
+              <input type="text" class="search-input" placeholder="Search appointment..." oninput="filterAppointments(this.value)">
+            </div>
             <div class="table-wrapper">
               <table class="class-table">
                 <thead>
@@ -341,10 +363,7 @@
                     <th>Status</th>
                   </tr>
                 </thead>
-                <tbody>
-                  <tr>
-                    <td colspan="5">
-                      <div class="empty-state">No data available in table</div>
+                <tbody id="appointment-tbody">
                     </td>
                   </tr>
                 </tbody>
@@ -483,6 +502,14 @@
   <script>
     // Lang toggle
     
+
+    function filterAppointments(query) {
+      const rows = document.querySelectorAll('#appointment-tbody tr');
+      const q = query.toLowerCase();
+      rows.forEach(row => {
+        row.style.display = row.textContent.toLowerCase().includes(q) ? '' : 'none';
+      });
+    }
 
     // Tab switching
     function switchTab(btn, view) {
