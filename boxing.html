@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BookConnect — Boxing</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/dashboard.css">
+<style>
+  .class-table-card {
+    background: #fff;
+    border: 1px solid #e8ecef;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .table-wrapper {
+    overflow-x: auto;
+  }
+
+  .table-wrapper::-webkit-scrollbar {
+    height: 6px;
+  }
+
+  .table-wrapper::-webkit-scrollbar-track {
+    background: #f8f9fa;
+  }
+
+  .table-wrapper::-webkit-scrollbar-thumb {
+    background: #d0e6f5;
+    border-radius: 3px;
+  }
+
+  .table-wrapper::-webkit-scrollbar-thumb:hover {
+    background: #b8d4eb;
+  }
+
+  .class-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 800px;
+  }
+
+  .class-table thead {
+    background: #f8f9fa;
+  }
+
+  .class-table th {
+    text-align: left;
+    padding: 1rem 1.5rem;
+    font-size: 12px;
+    font-weight: 600;
+    color: #8b95a1;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid #e8ecef;
+  }
+
+  .class-table td {
+    padding: 1.25rem 1.5rem;
+    font-size: 14px;
+    color: #2d3748;
+    border-bottom: 1px solid #f5f7fa;
+  }
+
+  .class-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  .class-table tbody tr:hover {
+    background: #fafbfc;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 3rem 2rem;
+    color: #8b95a1;
+    font-size: 14px;
+  }
+
+  .pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.5rem;
+    border-top: 1px solid #f0f2f5;
+  }
+
+  .pagination-info {
+    font-size: 13px;
+    color: #718096;
+  }
+
+  .pagination-buttons {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .pagination-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    border: 1px solid #e8ecef;
+    background: #fff;
+    color: #5a6c7d;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+  }
+
+  .pagination-btn:hover:not(:disabled) {
+    background: #f0f2f5;
+    border-color: #d0d7de;
+  }
+
+  .pagination-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  .pagination-btn.active {
+    background: #1a73e8;
+    border-color: #1a73e8;
+    color: white;
+  }
+
+  /* Modal Styles */
+  #modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #modal-overlay.active {
+    display: flex;
+  }
+
+  .modal {
+    background: #fff;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    position: relative;
+    z-index: 100000;
+  }
+
+  .modal-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid #e8ecef;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .modal-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #2d3748;
+    margin: 0;
+  }
+
+  .modal-close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #8b95a1;
+    font-size: 24px;
+    line-height: 1;
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    transition: all 0.15s;
+  }
+
+  .modal-close:hover {
+    background: #f0f2f5;
+    color: #2d3748;
+  }
+
+  .modal-body {
+    padding: 1.5rem;
+  }
+
+  .form-group {
+    margin-bottom: 1.25rem;
+  }
+
+  .form-label {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: #2d3748;
+    margin-bottom: 0.5rem;
+  }
+
+  .form-input,
+  .form-textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #e8ecef;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #2d3748;
+    transition: all 0.15s;
+    font-family: inherit;
+    box-sizing: border-box;
+  }
+
+  /* Custom file input */
+  .file-upload-wrapper {
+    position: relative;
+    width: 100%;
+  }
+
+  .file-upload-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px dashed #d0d7de;
+    border-radius: 8px;
+    background: #f8f9fa;
+    color: #5a6c7d;
+    font-size: 14px;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.15s;
+    box-sizing: border-box;
+  }
+
+  .file-upload-btn:hover {
+    border-color: #1a73e8;
+    background: #f0f5ff;
+    color: #1a73e8;
+  }
+
+  .file-upload-btn svg {
+    flex-shrink: 0;
+  }
+
+  .file-upload-name {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  input[type="file"].form-input,
+  input[type="file"] {
+    display: none !important;
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+    width: 0;
+    height: 0;
+  }
+
+  .form-input:focus,
+  .form-textarea:focus {
+    outline: none;
+    border-color: #1a73e8;
+    box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.1);
+  }
+
+  .form-textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+
+  .modal-footer {
+    padding: 1rem 1.5rem;
+    border-top: 1px solid #e8ecef;
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+  }
+
+  .btn-cancel {
+    padding: 0.625rem 1.25rem;
+    border: 1px solid #e8ecef;
+    border-radius: 8px;
+    background: #fff;
+    color: #5a6c7d;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .btn-cancel:hover {
+    background: #f0f2f5;
+    border-color: #d0d7de;
+  }
+
+  .btn-submit {
+    padding: 0.625rem 1.25rem;
+    border: none;
+    border-radius: 8px;
+    background: #1a73e8;
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .btn-submit:hover {
+    background: #1557b0;
+  }
+</style>
+</head>
+<body>
+  <div class="dashboard-container">
+    <!-- Sidebar Component -->
+    <div id="app-sidebar" data-page="boxing"></div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Topbar Component -->
+      <div id="app-topbar" data-title="Boxing"></div>
+
+      <!-- Content Area -->
+      <div class="content-area">
+        <!-- Toolbar -->
+        <div class="page-toolbar">
+          <div class="page-toolbar-left">
+            <h1 class="page-title">Class</h1>
+            <div class="tab-group">
+              <button class="tab-btn active" onclick="switchTab(this, 'class')">Class</button>
+              <button class="tab-btn" onclick="switchTab(this, 'schedule')">Schedule</button>
+            </div>
+          </div>
+          <button type="button"
+            id="btn-add-action"
+            class="btn-create"
+            onclick="openModal()">
+            + Class
+          </button>
+        </div>
+
+        <!-- Class Tab -->
+        <div id="view-class">
+          <div class="class-table-card">
+            <div class="table-wrapper">
+              <table class="class-table">
+                <thead>
+                  <tr>
+                    <th>No.</th>
+                    <th>Workspace</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td colspan="4">
+                      <div class="empty-state">No data available in table</div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="pagination">
+              <div class="pagination-info">Page 1 of 1</div>
+              <div class="pagination-buttons">
+                <button class="pagination-btn" disabled>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="15 18 9 12 15 6"/>
+                  </svg>
+                </button>
+                <button class="pagination-btn active">1</button>
+                <button class="pagination-btn" disabled>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="9 18 15 12 9 6"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Schedule Tab -->
+        <div id="view-schedule" style="display:none">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem">
+          
+            <!-- Filter Dropdown -->
+            <div style="position:relative;width:240px">
+              <select class="filter-select" style="width:100%;height:40px;padding:0 2.5rem 0 1rem;border:1px solid #e8ecef;border-radius:8px;font-size:14px;color:#2d3748;background:#fff;cursor:pointer;appearance:none">
+                <option>All Classes</option>
+                <option>Class A</option>
+                <option>Class B</option>
+              </select>
+              <svg style="position:absolute;right:12px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:#8b95a1;pointer-events:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"/>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+              </svg>
+            </div>
+          </div>
+
+          <div class="class-table-card">
+            <div class="table-wrapper">
+              <table class="class-table" style="min-width:1200px">
+                <thead>
+                  <tr>
+                    <th>No.</th>
+                    <th>Class</th>
+                    <th>Team</th>
+                    <th>Type</th>
+                    <th>Schedule Date</th>
+                    <th>Time Start</th>
+                    <th>Time End</th>
+                    <th>Interval</th>
+                    <th>Weekly Day</th>
+                    <th>Monthly Week</th>
+                    <th>Quota</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td colspan="11">
+                      <div class="empty-state">No schedule definitions found for this workspace.</div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="pagination">
+              <div class="pagination-info">Page 1 of 1</div>
+              <div class="pagination-buttons">
+                <button class="pagination-btn" disabled>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="15 18 9 12 15 6"/>
+                  </svg>
+                </button>
+                <button class="pagination-btn active">1</button>
+                <button class="pagination-btn" disabled>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="9 18 15 12 9 6"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Modal -->
+  <div id="modal-overlay">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 class="modal-title">Add New Class</h2>
+        <button class="modal-close" onclick="closeModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="add-class-form">
+          <div class="form-group">
+            <label class="form-label" for="class-title">Title</label>
+            <input type="text" id="class-title" class="form-input" placeholder="Enter class title" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="class-image">Image</label>
+            <div class="file-upload-wrapper">
+              <input type="file" id="class-image" accept="image/*" onchange="updateFileName(this)">
+              <button type="button" class="file-upload-btn" onclick="document.getElementById('class-image').click()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                  <polyline points="17 8 12 3 7 8"/>
+                  <line x1="12" y1="3" x2="12" y2="15"/>
+                </svg>
+                <span class="file-upload-name" id="file-upload-label">Choose image file...</span>
+              </button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="class-description">Description</label>
+            <textarea id="class-description" class="form-textarea" placeholder="Enter class description" required></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+        <button class="btn-submit" onclick="submitForm()">Submit</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Components -->
+  <script src="js/components/sidebar.js"></script>
+  <script src="js/components/topbar.js"></script>
+
+  <!-- Page Scripts -->
+  <script>
+    function switchTab(btn, view) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      document.getElementById('view-class').style.display = view === 'class' ? '' : 'none';
+      document.getElementById('view-schedule').style.display = view === 'schedule' ? '' : 'none';
+
+      const addBtn = document.getElementById('btn-add-action');
+      if (addBtn) {
+        addBtn.textContent = view === 'schedule' ? '+ Schedule' : '+ Class';
+      }
+    }
+
+    function openModal() {
+      document.getElementById('modal-overlay').classList.add('active');
+    }
+
+    function updateFileName(input) {
+      const label = document.getElementById('file-upload-label');
+      label.textContent = input.files.length > 0 ? input.files[0].name : 'Choose image file...';
+    }
+
+    function closeModal() {
+      document.getElementById('modal-overlay').classList.remove('active');
+      document.getElementById('add-class-form').reset();
+      document.getElementById('file-upload-label').textContent = 'Choose image file...';
+    }
+
+    function submitForm() {
+      const title = document.getElementById('class-title').value;
+      const description = document.getElementById('class-description').value;
+      
+      if (title && description) {
+        alert('Class added successfully!\n\nTitle: ' + title + '\nDescription: ' + description);
+        closeModal();
+      } else {
+        alert('Please fill in all required fields.');
+      }
+    }
+
+    // Close modal when clicking outside
+    document.addEventListener('DOMContentLoaded', function() {
+      const modalOverlay = document.getElementById('modal-overlay');
+      if (modalOverlay) {
+        modalOverlay.addEventListener('click', function(e) {
+          if (e.target === this) {
+            closeModal();
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>

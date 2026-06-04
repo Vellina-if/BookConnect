@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BookConnect — Schedule Exception</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/dashboard.css">
+<style>
+  .class-table-card {
+    background: #fff;
+    border: 1px solid #e8ecef;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .table-wrapper {
+    overflow-x: auto;
+  }
+
+  .table-wrapper::-webkit-scrollbar {
+    height: 6px;
+  }
+
+  .table-wrapper::-webkit-scrollbar-track {
+    background: #f8f9fa;
+  }
+
+  .table-wrapper::-webkit-scrollbar-thumb {
+    background: #d0e6f5;
+    border-radius: 3px;
+  }
+
+  .table-wrapper::-webkit-scrollbar-thumb:hover {
+    background: #b8d4eb;
+  }
+
+  .class-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 800px;
+  }
+
+  .class-table thead {
+    background: #f8f9fa;
+  }
+
+  .class-table th {
+    text-align: left;
+    padding: 1rem 1.5rem;
+    font-size: 12px;
+    font-weight: 600;
+    color: #8b95a1;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid #e8ecef;
+  }
+
+  .class-table td {
+    padding: 1.25rem 1.5rem;
+    font-size: 14px;
+    color: #2d3748;
+    border-bottom: 1px solid #f5f7fa;
+  }
+
+  .class-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  .class-table tbody tr:hover {
+    background: #fafbfc;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 3rem 2rem;
+    color: #8b95a1;
+    font-size: 14px;
+  }
+
+  .pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.5rem;
+    border-top: 1px solid #f0f2f5;
+  }
+
+  .pagination-info {
+    font-size: 13px;
+    color: #718096;
+  }
+
+  .pagination-buttons {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .pagination-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    border: 1px solid #e8ecef;
+    background: #fff;
+    color: #5a6c7d;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+  }
+
+  .pagination-btn:hover:not(:disabled) {
+    background: #f0f2f5;
+    border-color: #d0d7de;
+  }
+
+  .pagination-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  .pagination-btn.active {
+    background: #1a73e8;
+    border-color: #1a73e8;
+    color: white;
+  }
+
+  /* Schedule Exception modal specific styles */
+  #addSEModal .modal-container {
+    max-width: 600px;
+    max-height: 95vh;
+    border-radius: 18px;
+    overflow: hidden;
+  }
+
+  #addSEModal .modal-body {
+    padding: 2rem;
+    max-height: calc(95vh - 140px);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.4rem;
+  }
+
+  #addSEModal .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  #addSEModal .form-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #64748b;
+    letter-spacing: 0.3px;
+  }
+
+  #addSEModal .form-row-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1rem;
+  }
+
+  #addSEModal .form-row-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  #addSEModal .form-input,
+  #addSEModal .form-select {
+    height: 48px;
+    padding: 0 1rem;
+    border: 1px solid #dbe2ea;
+    border-radius: 10px;
+    background: #fff;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 14px;
+    color: #1e293b;
+    outline: none;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+    width: 100%;
+  }
+
+  #addSEModal .form-input::placeholder { color: #94a3b8; }
+  #addSEModal .form-input:focus,
+  #addSEModal .form-select:focus {
+    border-color: #1a73e8;
+    box-shadow: 0 0 0 4px rgba(26,115,232,0.1);
+  }
+
+  #addSEModal .selector-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 48px;
+    padding: 0 1rem;
+    border: 1px solid #dbe2ea;
+    border-radius: 10px;
+    background: #fff;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 14px;
+    color: #94a3b8;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+  }
+  #addSEModal .selector-btn:hover {
+    border-color: #1a73e8;
+  }
+
+  /* Rich text */
+  #addSEModal .rte-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #dbe2ea;
+    border-bottom: none;
+    border-radius: 10px 10px 0 0;
+    background: #f8f9fa;
+    flex-wrap: wrap;
+  }
+
+  #addSEModal .rte-toolbar select {
+    height: 28px;
+    padding: 0 0.5rem;
+    border: 1px solid #e8ecef;
+    border-radius: 4px;
+    font-size: 13px;
+    font-family: inherit;
+    color: #2d3748;
+    background: #fff;
+    cursor: pointer;
+  }
+
+  #addSEModal .rte-btn {
+    width: 28px;
+    height: 28px;
+    border: none;
+    background: transparent;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #2d3748;
+    font-size: 13px;
+    font-weight: 600;
+    transition: background 0.15s;
+  }
+  #addSEModal .rte-btn:hover { background: #e8ecef; }
+
+  #addSEModal .rte-area {
+    width: 100%;
+    min-height: 110px;
+    padding: 0.75rem 1rem;
+    border: 1px solid #dbe2ea;
+    border-radius: 0 0 10px 10px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 14px;
+    color: #1e293b;
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+  }
+  #addSEModal .rte-area:focus { border-color: #1a73e8; }
+  #addSEModal .rte-area:empty:not(.focused)::before {
+    content: attr(data-placeholder);
+    color: #94a3b8;
+    pointer-events: none;
+  }
+
+  #addSEModal .modal-footer {
+    padding: 1.5rem 2rem 2rem;
+    border-top: 1px solid #f1f5f9;
+  }
+</style>
+</head>
+<body>
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <div id="app-sidebar" data-page="schedule-exception"></div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div id="app-topbar" data-title="Schedule Exception"></div>
+
+      <div class="content-area">
+        <!-- Toolbar -->
+        <div class="page-toolbar">
+          <div class="page-toolbar-left">
+            <h1 class="page-title">Schedule Exception</h1>
+          </div>
+          <button class="btn-create" onclick="openSEModal()">+ Schedule Exception</button>
+        </div>
+
+        <!-- Table Card -->
+        <div class="class-table-card">
+          <div class="table-wrapper">
+            <table class="class-table">
+              <thead>
+                <tr>
+                  <th>No.</th>
+                  <th>Class Title</th>
+                  <th>Date</th>
+                  <th>Description</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td colspan="5">
+                    <div class="empty-state">No data available in table</div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="pagination">
+            <div class="pagination-info">Page 1 of 1</div>
+            <div class="pagination-buttons">
+              <button class="pagination-btn" disabled>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="15 18 9 12 15 6"/>
+                </svg>
+              </button>
+              <button class="pagination-btn active">1</button>
+              <button class="pagination-btn" disabled>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="9 18 15 12 9 6"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Components -->
+  <script src="js/components/sidebar.js"></script>
+  <script src="js/components/topbar.js"></script>
+
+  <!-- Add Schedule Exception Modal -->
+  <div class="modal-overlay" id="addSEModal">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h2 class="modal-title">Add Schedule Exception</h2>
+        <button class="modal-close-btn" onclick="closeSEModal()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-row-3">
+          <div class="form-group">
+            <label class="form-label">Select Class</label>
+            <button type="button" class="selector-btn">
+              <span>Choose Select Class</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Schedule Parameter</label>
+            <button type="button" class="selector-btn">
+              <span>Choose Parameter</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Specific Schedule List</label>
+            <button type="button" class="selector-btn">
+              <span>Choose Schedule</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="form-row-2">
+          <div class="form-group">
+            <label class="form-label">Exception Date <span style="color:#dc2626">*</span></label>
+            <input type="date" class="form-input" id="se-exception-date">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Status <span style="color:#dc2626">*</span></label>
+            <select class="form-select form-input" id="se-status">
+              <option value="active">Active</option>
+              <option value="inactive">Inactive</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Specific Time</label>
+          <button type="button" class="selector-btn">
+            <span>Choose Specific Time</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Description <span style="color:#dc2626">*</span></label>
+          <div class="rte-toolbar">
+            <select onchange="seFormatDoc('formatBlock', this.value); this.value='p'">
+              <option value="p">Paragraph</option>
+              <option value="h1">Heading 1</option>
+              <option value="h2">Heading 2</option>
+              <option value="h3">Heading 3</option>
+            </select>
+            <button type="button" class="rte-btn" onclick="seFormatDoc('bold')"><b>B</b></button>
+            <button type="button" class="rte-btn" onclick="seFormatDoc('italic')"><i>I</i></button>
+            <button type="button" class="rte-btn" onclick="seFormatDoc('insertUnorderedList')">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+            </button>
+            <button type="button" class="rte-btn" onclick="seFormatDoc('insertOrderedList')">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="10" y1="6" x2="21" y2="6"/><line x1="10" y1="12" x2="21" y2="12"/><line x1="10" y1="18" x2="21" y2="18"/><path d="M4 6h1v4"/><path d="M4 10h2"/><path d="M6 18H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
+            </button>
+            <button type="button" class="rte-btn" onclick="seFormatDoc('formatBlock', 'blockquote')">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 2v6c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/><path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 2v6c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"/></svg>
+            </button>
+          </div>
+          <div id="se-description" class="rte-area" contenteditable="true" data-placeholder="Enter Description"></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-cancel" onclick="closeSEModal()">Cancel</button>
+        <button type="button" class="btn-save" onclick="saveSEModal()">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function openSEModal() {
+      document.getElementById('addSEModal').classList.add('show');
+    }
+
+    function closeSEModal() {
+      document.getElementById('addSEModal').classList.remove('show');
+      document.getElementById('se-exception-date').value = '';
+      document.getElementById('se-status').value = 'active';
+      document.getElementById('se-description').innerHTML = '';
+    }
+
+    function saveSEModal() {
+      const date = document.getElementById('se-exception-date').value;
+      const desc = document.getElementById('se-description').innerText.trim();
+      if (!date || !desc) {
+        alert('Please fill in all required fields.');
+        return;
+      }
+      alert('Schedule Exception saved!');
+      closeSEModal();
+    }
+
+    function seFormatDoc(cmd, value) {
+      document.execCommand(cmd, false, value || null);
+      document.getElementById('se-description').focus();
+    }
+
+    document.getElementById('addSEModal').addEventListener('click', function(e) {
+      if (e.target === this) closeSEModal();
+    });
+
+    const seDesc = document.getElementById('se-description');
+    seDesc.addEventListener('focus', function() { this.classList.add('focused'); });
+    seDesc.addEventListener('blur', function() { this.classList.remove('focused'); });
+  </script>
+</body>
+</html>

@@ -1,0 +1,563 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BookConnect — Register</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="geo-br"></div>
+<div class="card">
+  <div class="left">
+    <div class="left-deco-card"></div>
+    <div class="left-deco-card2"></div>    <svg class="left-ellipse-1" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="100" cy="100" r="95" fill="rgba(58,157,225,0.08)" />
+    </svg>
+    <svg class="left-ellipse-2" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="60" cy="60" r="55" fill="rgba(58,157,225,0.06)" />
+    </svg>    <div class="logo">
+      <img src="assets/images/logo.png" alt="BookConnect logo" class="logo-img">
+    </div>
+    <div class="left-content">
+      <div class="badge">
+        <span class="badge-dot"></span>
+        Book Management Platform
+      </div>
+      <h1>Satu dasbor untuk <span>kendali penuh</span> booking tim.</h1>
+      <p>Pantau metrik performa, setujui permintaan jadwal, dan pastikan proyek berjalan sesuai target.</p>
+    </div>
+    <div class="stats">
+      <div class="stat">
+        <span class="stat-value">12K+</span>
+        <span class="stat-label">Tim aktif</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value">98%</span>
+        <span class="stat-label">On-time</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value">4.9★</span>
+        <span class="stat-label">Rating</span>
+      </div>
+    </div>
+  </div>
+  <div class="right">
+    <div class="top-bar">
+      <div class="lang-toggle">
+        <button class="lang-btn active" onclick="setLang('id', this)">ID</button>
+        <button class="lang-btn" onclick="setLang('en', this)">EN</button>
+      </div>
+    </div>
+    <div class="form-area">
+      <div class="form-header">
+        <h2 id="title">Buat Akun Baru</h2>
+        <p id="subtitle">Langkah 1 dari 8: Mulai dengan membuat akun dan workspace Anda.</p>
+      </div>
+      <div class="step-progress" aria-label="Progress pendaftaran">
+        <div class="step-dot active" data-step="1"></div>
+        <div class="step-dot" data-step="2"></div>
+        <div class="step-dot" data-step="3"></div>
+        <div class="step-dot" data-step="4"></div>
+        <div class="step-dot" data-step="5"></div>
+        <div class="step-dot" data-step="6"></div>
+        <div class="step-dot" data-step="7"></div>
+        <div class="step-dot" data-step="8"></div>
+      </div>
+      <div class="form-scroll">
+        <form id="register-form" onsubmit="handleRegister(event)">
+          <div class="step-panel active" data-step="1">
+            <div class="field">
+              <label for="fullname">Nama Lengkap</label>
+              <div class="input-wrap">
+                <input type="text" id="fullname" placeholder="Nama lengkap Anda" autocomplete="name">
+              </div>
+            </div>
+            <div class="field">
+              <label for="email">Alamat Email</label>
+              <div class="input-wrap">
+                <input type="email" id="email" placeholder="nama@perusahaan.com" autocomplete="email">
+                <span class="input-icon">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="4" width="20" height="16" rx="2"/>
+                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+                  </svg>
+                </span>
+              </div>
+            </div>
+            <div class="form-grid">
+              <div class="field">
+                <label for="country">Negara</label>
+                <div class="input-wrap">
+                  <select id="country">
+                    <option value="">Pilih negara</option>
+                    <option value="ID">Indonesia</option>
+                    <option value="MY">Malaysia</option>
+                    <option value="SG">Singapura</option>
+                    <option value="PH">Filipina</option>
+                  </select>
+                  
+                </div>
+              </div>
+              <div class="field">
+                <label for="phone">Nomor Telepon</label>
+                <div class="input-wrap">
+                  <input type="tel" id="phone" placeholder="0812 3456 7890" autocomplete="tel">
+                </div>
+              </div>
+            </div>
+            <div class="field">
+              <label for="password">Kata Sandi</label>
+              <div class="input-wrap">
+                <input type="password" id="password" placeholder="Minimal 8 karakter" autocomplete="new-password">
+                <button type="button" class="toggle-pw" onclick="togglePw()" aria-label="Tampilkan kata sandi">
+                  <svg id="eye-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
+                    <circle cx="12" cy="12" r="3"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <label class="remember">
+              <input type="checkbox" id="terms">
+              Saya setuju dengan syarat & ketentuan.
+            </label>
+            <div class="steps-row">
+              <button type="button" class="btn-primary" onclick="goStep(2)">Lanjutkan</button>
+            </div>
+          </div>
+
+          <div class="step-panel" data-step="2">
+            <div class="field">
+              <label for="workspace-name">Nama Workspace</label>
+              <div class="input-wrap">
+                <input type="text" id="workspace-name" placeholder="Contoh: BookConnect Team" autocomplete="off">
+              </div>
+            </div>
+            <p class="step-description">Pilih nama workspace yang mudah dikenali oleh tim Anda.</p>
+            <div class="steps-row">
+              <button type="button" class="btn-secondary" onclick="goStep(1)">Kembali</button>
+              <button type="button" class="btn-primary" onclick="goStep(3)">Lanjutkan</button>
+            </div>
+          </div>
+
+          <div class="step-panel" data-step="3">
+            <div class="field">
+              <label for="location-country">Negara Workspace</label>
+              <div class="input-wrap">
+                <select id="location-country">
+                  <option value="">Pilih negara</option>
+                  <option value="ID">Indonesia</option>
+                  <option value="MY">Malaysia</option>
+                  <option value="SG">Singapura</option>
+                  <option value="PH">Filipina</option>
+                </select>
+                
+              </div>
+            </div>
+            <div class="form-grid">
+              <div class="field">
+                <label for="state">Provinsi / State</label>
+                <div class="input-wrap">
+                  <input type="text" id="state" placeholder="Contoh: Jawa Barat" autocomplete="off">
+                </div>
+              </div>
+              <div class="field">
+                <label for="city">Kota</label>
+                <div class="input-wrap">
+                  <input type="text" id="city" placeholder="Contoh: Bandung" autocomplete="off">
+                </div>
+              </div>
+            </div>
+            <div class="form-grid">
+              <div class="field">
+                <label for="timezone">Timezone</label>
+                <div class="input-wrap">
+                  <select id="timezone">
+                    <option value="">Pilih timezone</option>
+                    <option value="WIB">WIB</option>
+                    <option value="WITA">WITA</option>
+                    <option value="WIT">WIT</option>
+                  </select>
+                  
+                </div>
+              </div>
+              <div class="field">
+                <label for="address">Alamat</label>
+                <div class="input-wrap">
+                  <input type="text" id="address" placeholder="Alamat kantor atau lokasi" autocomplete="off">
+                </div>
+              </div>
+            </div>
+            <div class="steps-row">
+              <button type="button" class="btn-secondary" onclick="goStep(2)">Kembali</button>
+              <button type="button" class="btn-primary" onclick="goStep(4)">Lanjutkan</button>
+            </div>
+          </div>
+
+          <div class="step-panel" data-step="4">
+            <div class="field">
+              <label for="class-name">Nama Kelas</label>
+              <div class="input-wrap">
+                <input type="text" id="class-name" placeholder="Contoh: Project Management" autocomplete="off">
+              </div>
+            </div>
+            <p class="step-description">Tentukan nama kelas atau kategori layanan yang Anda jalankan.</p>
+            <div class="steps-row">
+              <button type="button" class="btn-secondary" onclick="goStep(3)">Kembali</button>
+              <button type="button" class="btn-primary" onclick="goStep(5)">Lanjutkan</button>
+            </div>
+          </div>
+
+          <div class="step-panel" data-step="5">
+            <div class="field">
+              <label for="team-name">Nama Tim</label>
+              <div class="input-wrap">
+                <input type="text" id="team-name" placeholder="Contoh: Tim Operasional" autocomplete="off">
+              </div>
+            </div>
+            <p class="step-description">Nama tim membantu Anda mengelompokkan anggota dan tugas.</p>
+            <div class="steps-row">
+              <button type="button" class="btn-secondary" onclick="goStep(4)">Kembali</button>
+              <button type="button" class="btn-primary" onclick="goStep(6)">Lanjutkan</button>
+            </div>
+          </div>
+
+          <div class="step-panel" data-step="6">
+            <div class="field">
+              <label for="position-input">Posisi Tim</label>
+              <div class="position-row">
+                <div class="input-wrap">
+                  <input type="text" id="position-input" placeholder="Tambahkan posisi baru" autocomplete="off">
+                </div>
+                <button type="button" class="btn-add" onclick="addPosition()">Tambah</button>
+              </div>
+            </div>
+            <div class="position-list" id="position-list"></div>
+            <p class="step-description">Tambahkan setidaknya satu posisi seperti Manager, Staff, atau Admin.</p>
+            <div class="steps-row">
+              <button type="button" class="btn-secondary" onclick="goStep(5)">Kembali</button>
+              <button type="button" class="btn-primary" onclick="goStep(7)">Lanjutkan</button>
+            </div>
+          </div>
+
+          <div class="step-panel" data-step="7">
+            <div class="field">
+              <label>Team Members</label>
+              <div class="member-list empty" id="member-list">
+                <div class="empty-state">Belum ada anggota. Lanjutkan untuk menambah anggota.</div>
+              </div>
+            </div>
+            <p class="step-description">Langkah ini menunjukkan daftar anggota tim yang sudah Anda tambahkan.</p>
+            <div class="steps-row">
+              <button type="button" class="btn-secondary" onclick="goStep(6)">Kembali</button>
+              <button type="button" class="btn-primary" onclick="goStep(8)">Lanjutkan</button>
+            </div>
+          </div>
+
+          <div class="step-panel" data-step="8">
+            <div class="field">
+              <label for="member-fullname">Nama Anggota</label>
+              <div class="input-wrap">
+                <input type="text" id="member-fullname" placeholder="Nama anggota" autocomplete="off">
+              </div>
+            </div>
+            <div class="field">
+              <label for="member-email">Email Anggota</label>
+              <div class="input-wrap">
+                <input type="email" id="member-email" placeholder="email@tim.com" autocomplete="email">
+              </div>
+            </div>
+            <div class="field">
+              <label for="member-position">Posisi Anggota</label>
+              <div class="input-wrap">
+                <input type="text" id="member-position" placeholder="Contoh: Staff" autocomplete="off">
+              </div>
+            </div>
+            <div class="steps-row">
+              <button type="button" class="btn-add" onclick="addTeamMember()">Tambah Anggota</button>
+            </div>
+            <div class="member-list" id="member-card-list"></div>
+            <div class="steps-row">
+              <button type="button" class="btn-secondary" onclick="goStep(7)">Kembali</button>
+              <button type="submit" class="btn-primary" id="submit-btn">
+                <span id="submit-text">Selesaikan</span>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <p class="footer-text" id="footer-text">Sudah punya akun? <a href="login.html">Masuk</a></p>
+    </div>
+  </div>
+</div>
+<script>
+const translations = {
+  id: {
+    title: 'Buat Akun Baru',
+    subtitle: 'Langkah 1 dari 8: Mulai dengan membuat akun dan workspace Anda.',
+    fullname: 'Nama Lengkap',
+    email: 'Alamat Email',
+    country: 'Negara',
+    phone: 'Nomor Telepon',
+    password: 'Kata Sandi',
+    terms: 'Saya setuju dengan syarat & ketentuan.',
+    submit: 'Selesaikan',
+    footer: 'Sudah punya akun? <a href="login.html">Masuk</a>',
+    errFullname: 'Nama lengkap wajib diisi.',
+    errEmail: 'Masukkan email yang valid.',
+    errCountry: 'Pilih negara Anda.',
+    errPhone: 'Nomor telepon wajib diisi.',
+    errPassword: 'Kata sandi minimal 8 karakter.',
+    errTerms: 'Anda harus menyetujui syarat dan ketentuan.',
+    errWorkspace: 'Nama workspace wajib diisi.',
+    errLocation: 'Lengkapi semua informasi lokasi.',
+    errClassName: 'Nama kelas wajib diisi.',
+    errTeamName: 'Nama tim wajib diisi.',
+    errPosition: 'Tambahkan setidaknya satu posisi.',
+    errMemberName: 'Nama anggota wajib diisi.',
+    errMemberEmail: 'Email anggota harus valid.',
+    errMemberPosition: 'Posisi anggota wajib diisi.',
+    loading: 'Membuat workspace…',
+    success: 'Workspace berhasil dibuat! Selamat datang di BookConnect.'
+  },
+  en: {
+    title: 'Create Your Account',
+    subtitle: 'Step 1 of 8: Start by creating your account and workspace.',
+    fullname: 'Full Name',
+    email: 'Email Address',
+    country: 'Country',
+    phone: 'Phone Number',
+    password: 'Password',
+    terms: 'I agree to the terms & conditions.',
+    submit: 'Finish',
+    footer: 'Already have an account? <a href="login.html">Sign in</a>',
+    errFullname: 'Full name is required.',
+    errEmail: 'Please enter a valid email.',
+    errCountry: 'Please select your country.',
+    errPhone: 'Phone number is required.',
+    errPassword: 'Password must be at least 8 characters.',
+    errTerms: 'You must agree to the terms and conditions.',
+    errWorkspace: 'Workspace name is required.',
+    errLocation: 'Complete all location fields.',
+    errClassName: 'Class name is required.',
+    errTeamName: 'Team name is required.',
+    errPosition: 'Add at least one position.',
+    errMemberName: 'Member full name is required.',
+    errMemberEmail: 'Member email must be valid.',
+    errMemberPosition: 'Member position is required.',
+    loading: 'Creating workspace…',
+    success: 'Workspace created! Welcome to BookConnect.'
+  }
+};
+
+let currentLang = 'id';
+let currentStep = 1;
+const positions = [];
+const teamMembers = [];
+
+function setLang(lang, btn) {
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  currentLang = lang;
+  const text = translations[lang];
+  document.getElementById('title').textContent = text.title;
+  document.getElementById('subtitle').textContent = text.subtitle;
+  document.getElementById('submit-text').textContent = text.submit;
+  document.getElementById('footer-text').innerHTML = text.footer;
+}
+
+function updateStepUI() {
+  document.querySelectorAll('.step-panel').forEach(panel => {
+    panel.classList.toggle('active', Number(panel.dataset.step) === currentStep);
+  });
+  document.querySelectorAll('.step-dot').forEach(dot => {
+    dot.classList.toggle('active', Number(dot.dataset.step) === currentStep);
+  });
+  const subtitles = {
+    1: translations[currentLang].subtitle,
+    2: currentLang === 'id' ? 'Langkah 2 dari 8: Beri nama workspace Anda.' : 'Step 2 of 8: Name your workspace.',
+    3: currentLang === 'id' ? 'Langkah 3 dari 8: Lengkapi lokasi workspace.' : 'Step 3 of 8: Fill workspace location.',
+    4: currentLang === 'id' ? 'Langkah 4 dari 8: Tentukan nama kelas.' : 'Step 4 of 8: Set your class name.',
+    5: currentLang === 'id' ? 'Langkah 5 dari 8: Beri nama tim Anda.' : 'Step 5 of 8: Name your team.',
+    6: currentLang === 'id' ? 'Langkah 6 dari 8: Tambahkan posisi dalam tim.' : 'Step 6 of 8: Add team positions.',
+    7: currentLang === 'id' ? 'Langkah 7 dari 8: Tinjau anggota tim.' : 'Step 7 of 8: Review team members.',
+    8: currentLang === 'id' ? 'Langkah 8 dari 8: Tambahkan anggota baru.' : 'Step 8 of 8: Add new team members.'
+  };
+  document.getElementById('subtitle').textContent = subtitles[currentStep];
+  document.querySelectorAll('.step-dot').forEach(dot => {
+    dot.onclick = () => goStep(Number(dot.dataset.step));
+  });
+}
+
+function goStep(step) {
+  if (step > currentStep && !validateStep(currentStep)) {
+    return;
+  }
+  currentStep = step;
+  updateStepUI();
+  document.querySelector('.form-scroll').scrollTop = 0;
+}
+
+function validateStep(step) {
+  if (step === 1) {
+    const fullname = document.getElementById('fullname').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const country = document.getElementById('country').value;
+    const phone = document.getElementById('phone').value.trim();
+    const password = document.getElementById('password').value;
+    const terms = document.getElementById('terms').checked;
+    if (!fullname) { alert(translations[currentLang].errFullname); return false; }
+    if (!validateEmail(email)) { alert(translations[currentLang].errEmail); return false; }
+    if (!country) { alert(translations[currentLang].errCountry); return false; }
+    if (!phone) { alert(translations[currentLang].errPhone); return false; }
+    if (password.length < 8) { alert(translations[currentLang].errPassword); return false; }
+    if (!terms) { alert(translations[currentLang].errTerms); return false; }
+  }
+  if (step === 2) {
+    const workspace = document.getElementById('workspace-name').value.trim();
+    if (!workspace) { alert(translations[currentLang].errWorkspace); return false; }
+  }
+  if (step === 3) {
+    const locationCountry = document.getElementById('location-country').value;
+    const state = document.getElementById('state').value.trim();
+    const city = document.getElementById('city').value.trim();
+    const timezone = document.getElementById('timezone').value;
+    const address = document.getElementById('address').value.trim();
+    if (!locationCountry || !state || !city || !timezone || !address) {
+      alert(translations[currentLang].errLocation); return false;
+    }
+  }
+  if (step === 4) {
+    const className = document.getElementById('class-name').value.trim();
+    if (!className) { alert(translations[currentLang].errClassName); return false; }
+  }
+  if (step === 5) {
+    const teamName = document.getElementById('team-name').value.trim();
+    if (!teamName) { alert(translations[currentLang].errTeamName); return false; }
+  }
+  if (step === 6) {
+    if (positions.length === 0) { alert(translations[currentLang].errPosition); return false; }
+  }
+  return true;
+}
+
+function handleRegister(event) {
+  event.preventDefault();
+  if (currentStep < 8) {
+    if (!validateStep(currentStep)) return;
+    goStep(currentStep + 1);
+    return;
+  }
+  if (currentStep === 8) {
+    const memberName = document.getElementById('member-fullname').value.trim();
+    const memberEmail = document.getElementById('member-email').value.trim();
+    const memberPosition = document.getElementById('member-position').value.trim();
+    if (memberName || memberEmail || memberPosition) {
+      alert('Silakan tambahkan anggota dengan tombol Tambah Anggota terlebih dahulu.');
+      return;
+    }
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = true;
+    const original = document.getElementById('submit-text').textContent;
+    document.getElementById('submit-text').textContent = translations[currentLang].loading;
+    setTimeout(() => {
+      window.location.href = 'dashboard.html';
+    }, 1100);
+  }
+}
+
+function validateEmail(value) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+}
+
+function addPosition() {
+  const positionInput = document.getElementById('position-input');
+  const value = positionInput.value.trim();
+  if (!value) return;
+  if (!positions.includes(value)) {
+    positions.push(value);
+    renderPositionList();
+  }
+  positionInput.value = '';
+}
+
+function renderPositionList() {
+  const list = document.getElementById('position-list');
+  if (!positions.length) {
+    list.innerHTML = '<div class="empty-state">Belum ada posisi. Tambahkan posisi tim terlebih dahulu.</div>';
+    return;
+  }
+  list.innerHTML = positions.map(pos => `
+    <div class="position-chip">
+      <span>${pos}</span>
+      <button type="button" onclick="removePosition('${pos}')">×</button>
+    </div>
+  `).join('');
+}
+
+function removePosition(position) {
+  const index = positions.indexOf(position);
+  if (index !== -1) {
+    positions.splice(index, 1);
+    renderPositionList();
+  }
+}
+
+function addTeamMember() {
+  const name = document.getElementById('member-fullname').value.trim();
+  const email = document.getElementById('member-email').value.trim();
+  const position = document.getElementById('member-position').value.trim();
+  if (!name) { alert(translations[currentLang].errMemberName); return; }
+  if (!validateEmail(email)) { alert(translations[currentLang].errMemberEmail); return; }
+  if (!position) { alert(translations[currentLang].errMemberPosition); return; }
+  teamMembers.push({ name, email, position });
+  document.getElementById('member-fullname').value = '';
+  document.getElementById('member-email').value = '';
+  document.getElementById('member-position').value = '';
+  renderMemberList();
+}
+
+function renderMemberList() {
+  const list = document.getElementById('member-card-list');
+  list.innerHTML = teamMembers.map(member => `
+    <div class="member-chip">
+      <div>
+        <strong>${member.name}</strong>
+        <span>${member.email}</span>
+        <span>${member.position}</span>
+      </div>
+      <button type="button" onclick="removeMember('${member.email}')">×</button>
+    </div>
+  `).join('');
+  const summary = document.getElementById('member-list');
+  if (teamMembers.length === 0) {
+    summary.innerHTML = '<div class="empty-state">Belum ada anggota. Lanjutkan untuk menambah anggota.</div>';
+  } else {
+    summary.innerHTML = teamMembers.map(member => `
+      <div class="member-chip">
+        <div>${member.name} · ${member.position}</div>
+      </div>
+    `).join('');
+  }
+}
+
+function removeMember(email) {
+  const index = teamMembers.findIndex(item => item.email === email);
+  if (index !== -1) {
+    teamMembers.splice(index, 1);
+    renderMemberList();
+  }
+}
+
+setLang(currentLang, document.querySelector('.lang-btn.active'));
+updateStepUI();
+renderPositionList();
+renderMemberList();
+</script>
+</body>
+</html>

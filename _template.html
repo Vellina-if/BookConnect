@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BookConnect — Page Title</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+  <div class="dashboard-container">
+    <!-- Sidebar Component -->
+    <div id="app-sidebar" data-page="dashboard"></div>
+    <!-- data-page options: dashboard, appointment, team, boxing, booking-page, schedule-exception, workspace, log -->
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Topbar Component -->
+      <div id="app-topbar" data-title="Dashboard"></div>
+      <!-- data-title options: Dashboard, Appointment, Team -->
+
+      <!-- Content Area -->
+      <div class="content-area">
+        <h1>Your content here</h1>
+      </div>
+    </main>
+  </div>
+
+  <!-- Components -->
+  <script src="js/components/sidebar.js"></script>
+  <script src="js/components/topbar.js"></script>
+  
+  <!-- Page specific scripts -->
+  <script>
+    // Your page scripts here
+  </script>
+</body>
+</html>

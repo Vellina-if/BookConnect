@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BookConnect — Verifikasi OTP</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<style>
+  .otp-group {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin: 8px 0;
+  }
+
+  .otp-input {
+    width: 44px;
+    height: 52px;
+    text-align: center;
+    font-size: 1.3rem;
+    font-weight: 600;
+    font-family: 'Sora', sans-serif;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 10px;
+    background: #f8fafc;
+    color: #1e293b;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    -moz-appearance: textfield;
+  }
+
+  .otp-input::-webkit-outer-spin-button,
+  .otp-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  .otp-input:focus {
+    border-color: #3a9de1;
+    box-shadow: 0 0 0 3px rgba(58,157,225,0.15);
+    background: #fff;
+  }
+
+  .otp-input.filled {
+    border-color: #3a9de1;
+    background: #fff;
+  }
+
+  .otp-hint {
+    font-size: 0.82rem;
+    color: #94a3b8;
+    text-align: center;
+    margin-top: 4px;
+  }
+
+  .resend-row {
+    text-align: center;
+    margin-top: 6px;
+    font-size: 0.85rem;
+    color: #94a3b8;
+  }
+
+  .resend-row a {
+    color: #3a9de1;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  .resend-row a:hover {
+    text-decoration: underline;
+  }
+
+  #countdown {
+    font-variant-numeric: tabular-nums;
+  }
+</style>
+</head>
+<body>
+<div class="geo-br"></div>
+<div class="card">
+
+  <!-- LEFT -->
+  <div class="left">
+    <div class="left-deco-card"></div>
+    <div class="left-deco-card2"></div>
+    <svg class="left-ellipse-1" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="100" cy="100" r="95" fill="rgba(58,157,225,0.08)" />
+    </svg>
+    <svg class="left-ellipse-2" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="60" cy="60" r="55" fill="rgba(58,157,225,0.06)" />
+    </svg>
+
+    <div class="logo">
+      <img src="assets/images/logo.png" alt="BookConnect logo" class="logo-img">
+    </div>
+
+    <div class="left-content">
+      <div class="badge">
+        <span class="badge-dot"></span>
+        Book Management Platform
+      </div>
+      <h1>Satu langkah lagi untuk <span>akses penuh</span> ke dasbor kamu.</h1>
+      <p>Kode OTP dikirim ke email kamu. Masukkan kode untuk memverifikasi identitasmu.</p>
+    </div>
+
+    <div class="stats">
+      <div class="stat">
+        <span class="stat-value">12K+</span>
+        <span class="stat-label">Tim aktif</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value">98%</span>
+        <span class="stat-label">On-time</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value">4.9★</span>
+        <span class="stat-label">Rating</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT -->
+  <div class="right">
+    <div class="top-bar">
+      <div class="lang-toggle">
+        <button class="lang-btn active" onclick="setLang('id',this)">ID</button>
+        <button class="lang-btn" onclick="setLang('en',this)">EN</button>
+      </div>
+    </div>
+
+    <div class="form-area">
+      <div class="form-header">
+        <h2 id="title">Verifikasi OTP</h2>
+        <p id="subtitle">Masukkan 6 digit kode yang dikirim ke email kamu</p>
+      </div>
+
+      <div class="form-scroll">
+        <form onsubmit="handleVerify(event)">
+
+          <div class="field">
+            <div class="otp-group">
+              <input class="otp-input" type="number" maxlength="1" id="otp-0" inputmode="numeric" autocomplete="one-time-code">
+              <input class="otp-input" type="number" maxlength="1" id="otp-1" inputmode="numeric">
+              <input class="otp-input" type="number" maxlength="1" id="otp-2" inputmode="numeric">
+              <input class="otp-input" type="number" maxlength="1" id="otp-3" inputmode="numeric">
+              <input class="otp-input" type="number" maxlength="1" id="otp-4" inputmode="numeric">
+              <input class="otp-input" type="number" maxlength="1" id="otp-5" inputmode="numeric">
+            </div>
+            <p class="otp-hint" id="hint-text">Kode berlaku selama 10 menit</p>
+          </div>
+
+          <button type="submit" class="btn-primary" id="btn-submit">
+            <span id="btn-verify">Verifikasi &amp; Masuk</span>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </button>
+
+        </form>
+
+        <div class="resend-row">
+          <span id="resend-label">Tidak menerima kode?</span>
+          <span id="resend-timer"> Kirim ulang dalam <span id="countdown">60</span>s</span>
+          <a id="resend-link" style="display:none;" onclick="resendOtp()" id="resend-action">Kirim Ulang</a>
+        </div>
+
+        <p class="footer-text" style="text-align:center; margin-top: 20px;">
+          <a href="login.html" id="back-link" style="color:#94a3b8; font-size:0.82rem; text-decoration:none; letter-spacing:0.05em; text-transform:uppercase; font-weight:500;">
+            <span id="back-text">Kembali ke Login</span>
+          </a>
+        </p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// OTP input navigation
+const inputs = document.querySelectorAll('.otp-input');
+
+inputs.forEach((inp, i) => {
+  inp.addEventListener('input', (e) => {
+    // Keep only last digit if somehow more than 1 char
+    const val = e.target.value.replace(/\D/g, '').slice(-1);
+    e.target.value = val;
+    if (val) {
+      e.target.classList.add('filled');
+      if (i < inputs.length - 1) inputs[i + 1].focus();
+    } else {
+      e.target.classList.remove('filled');
+    }
+  });
+
+  inp.addEventListener('keydown', (e) => {
+    if (e.key === 'Backspace' && !inp.value && i > 0) {
+      inputs[i - 1].focus();
+      inputs[i - 1].value = '';
+      inputs[i - 1].classList.remove('filled');
+    }
+  });
+
+  inp.addEventListener('paste', (e) => {
+    e.preventDefault();
+    const paste = (e.clipboardData || window.clipboardData).getData('text').replace(/\D/g, '').slice(0, 6);
+    paste.split('').forEach((ch, idx) => {
+      if (inputs[i + idx]) {
+        inputs[i + idx].value = ch;
+        inputs[i + idx].classList.add('filled');
+      }
+    });
+    const next = inputs[Math.min(i + paste.length, inputs.length - 1)];
+    if (next) next.focus();
+  });
+});
+
+// Countdown timer
+let seconds = 60;
+const countdownEl = document.getElementById('countdown');
+const timerEl = document.getElementById('resend-timer');
+const linkEl = document.getElementById('resend-link');
+
+const timer = setInterval(() => {
+  seconds--;
+  countdownEl.textContent = seconds;
+  if (seconds <= 0) {
+    clearInterval(timer);
+    timerEl.style.display = 'none';
+    linkEl.style.display = 'inline';
+  }
+}, 1000);
+
+function resendOtp() {
+  linkEl.style.display = 'none';
+  seconds = 60;
+  timerEl.style.display = 'inline';
+  countdownEl.textContent = seconds;
+  inputs.forEach(inp => { inp.value = ''; inp.classList.remove('filled'); });
+  inputs[0].focus();
+
+  const interval = setInterval(() => {
+    seconds--;
+    countdownEl.textContent = seconds;
+    if (seconds <= 0) {
+      clearInterval(interval);
+      timerEl.style.display = 'none';
+      linkEl.style.display = 'inline';
+    }
+  }, 1000);
+}
+
+function handleVerify(e) {
+  e.preventDefault();
+  const code = Array.from(inputs).map(i => i.value).join('');
+  if (code.length < 6) {
+    inputs[code.length]?.focus();
+    return;
+  }
+  const btn = document.getElementById('btn-submit');
+  const span = document.getElementById('btn-verify');
+  const orig = span.textContent;
+  span.textContent = '...';
+  btn.disabled = true;
+  setTimeout(() => { window.location.href = 'dashboard.html'; }, 1200);
+}
+
+// i18n
+const t = {
+  id: {
+    title: 'Verifikasi OTP',
+    subtitle: 'Masukkan 6 digit kode yang dikirim ke email kamu',
+    hint: 'Kode berlaku selama 10 menit',
+    btnVerify: 'Verifikasi & Masuk',
+    resendLabel: 'Tidak menerima kode?',
+    resendTimer: 'Kirim ulang dalam ',
+    resendAction: 'Kirim Ulang',
+    back: 'Kembali ke Login',
+  },
+  en: {
+    title: 'OTP Verification',
+    subtitle: 'Enter the 6-digit code sent to your email',
+    hint: 'Code is valid for 10 minutes',
+    btnVerify: 'Verify & Sign In',
+    resendLabel: "Didn't receive the code?",
+    resendTimer: 'Resend in ',
+    resendAction: 'Resend',
+    back: 'Back to Login',
+  }
+};
+
+function setLang(lang, btn) {
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const l = t[lang];
+  document.getElementById('title').textContent = l.title;
+  document.getElementById('subtitle').textContent = l.subtitle;
+  document.getElementById('hint-text').textContent = l.hint;
+  document.getElementById('btn-verify').textContent = l.btnVerify;
+  document.getElementById('resend-label').textContent = l.resendLabel;
+  document.getElementById('back-text').textContent = l.back;
+  document.getElementById('resend-link').textContent = l.resendAction;
+}
+</script>
+</body>
+</html>

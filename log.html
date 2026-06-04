@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BookConnect — Log</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/dashboard.css">
+<style>
+  .class-table-card {
+    background: #fff;
+    border: 1px solid #e8ecef;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .table-wrapper {
+    overflow-x: auto;
+  }
+
+  .table-wrapper::-webkit-scrollbar {
+    height: 6px;
+  }
+
+  .table-wrapper::-webkit-scrollbar-track {
+    background: #f8f9fa;
+  }
+
+  .table-wrapper::-webkit-scrollbar-thumb {
+    background: #d0e6f5;
+    border-radius: 3px;
+  }
+
+  .table-wrapper::-webkit-scrollbar-thumb:hover {
+    background: #b8d4eb;
+  }
+
+  .class-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 800px;
+  }
+
+  .class-table thead {
+    background: #f8f9fa;
+  }
+
+  .class-table th {
+    text-align: left;
+    padding: 1rem 1.5rem;
+    font-size: 12px;
+    font-weight: 600;
+    color: #8b95a1;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid #e8ecef;
+  }
+
+  .class-table td {
+    padding: 1.25rem 1.5rem;
+    font-size: 14px;
+    color: #2d3748;
+    border-bottom: 1px solid #f5f7fa;
+  }
+
+  .class-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  .class-table tbody tr:hover {
+    background: #fafbfc;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 3rem 2rem;
+    color: #8b95a1;
+    font-size: 14px;
+  }
+
+  .pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.5rem;
+    border-top: 1px solid #f0f2f5;
+  }
+
+  .pagination-info {
+    font-size: 13px;
+    color: #718096;
+  }
+
+  .pagination-buttons {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .pagination-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    border: 1px solid #e8ecef;
+    background: #fff;
+    color: #5a6c7d;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+  }
+
+  .pagination-btn:hover:not(:disabled) {
+    background: #f0f2f5;
+    border-color: #d0d7de;
+  }
+
+  .pagination-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  .pagination-btn.active {
+    background: #1a73e8;
+    border-color: #1a73e8;
+    color: white;
+  }
+
+  .log-level {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .log-info {
+    background: #dbeafe;
+    color: #1e40af;
+  }
+
+  .log-warning {
+    background: #fef3c7;
+    color: #d97706;
+  }
+
+  .log-error {
+    background: #fee2e2;
+    color: #dc2626;
+  }
+
+  .log-success {
+    background: #dcfce7;
+    color: #16a34a;
+  }
+</style>
+</head>
+<body>
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <div id="app-sidebar" data-page="log"></div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div id="app-topbar" data-title="Log"></div>
+
+      <div class="content-area">
+        <!-- Toolbar -->
+        <div class="page-toolbar">
+          <div class="page-toolbar-left">
+            <h1 class="page-title">Log</h1>
+          </div>
+        </div>
+
+        <!-- Table Card -->
+        <div class="class-table-card">
+          <div class="table-wrapper">
+            <table class="class-table">
+              <thead>
+                <tr>
+                  <th>No.</th>
+                  <th>Timestamp</th>
+                  <th>User</th>
+                  <th>Action</th>
+                  <th>Module</th>
+                  <th>Level</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td colspan="6">
+                    <div class="empty-state">No log entries found</div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="pagination">
+            <div class="pagination-info">Page 1 of 1</div>
+            <div class="pagination-buttons">
+              <button class="pagination-btn" disabled>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="15 18 9 12 15 6"/>
+                </svg>
+              </button>
+              <button class="pagination-btn active">1</button>
+              <button class="pagination-btn" disabled>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="9 18 15 12 9 6"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Components -->
+  <script src="js/components/sidebar.js"></script>
+  <script src="js/components/topbar.js"></script>
+</body>
+</html>

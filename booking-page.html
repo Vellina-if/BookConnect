@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BookConnect — Booking Page</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/dashboard.css">
+<link rel="stylesheet" href="css/booking-page.css">
+</head>
+<body>
+  <div class="dashboard-container">
+    <!-- Sidebar Component -->
+    <div id="app-sidebar" data-page="booking-page"></div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Topbar Component -->
+      <div id="app-topbar" data-title="Booking Page"></div>
+
+      <!-- Content Area -->
+      <div class="content-area">
+        <!-- Booking Editor -->
+        <div class="booking-editor">
+          <!-- Live Preview Panel -->
+          <div class="preview-panel">
+            <div class="preview-header">
+              <h2>Live Preview</h2>
+            </div>
+            <div class="preview-content">
+              <h1 id="preview-title" class="preview-page-title">Your Workspace Name</h1>
+              <div id="preview-description" class="preview-page-description">
+                <p>Welcome to our booking page. Select a date below to view available time slots.</p>
+              </div>
+              <div id="preview-images" class="preview-images-carousel">
+                <!-- Images will be displayed here -->
+              </div>
+              <div id="preview-calendar" class="preview-calendar-widget">
+                <div class="calendar-header">
+                  <button type="button" id="calendar-prev-btn" class="calendar-nav" aria-label="Previous month">‹</button>
+                  <div class="calendar-title">
+                    <span id="calendar-month-year">April 2026</span>
+                  </div>
+                  <button type="button" id="calendar-next-btn" class="calendar-nav" aria-label="Next month">›</button>
+                </div>
+                <div class="calendar-weekdays">
+                  <span>Sun</span>
+                  <span>Mon</span>
+                  <span>Tue</span>
+                  <span>Wed</span>
+                  <span>Thu</span>
+                  <span>Fri</span>
+                  <span>Sat</span>
+                </div>
+                <div id="calendar-grid" class="calendar-grid" aria-label="Booking calendar"></div>
+                <div class="calendar-footer">
+                  <div id="selected-date-label" class="selected-date-label">Select a date to view schedules</div>
+                  <div id="time-slots" class="time-slots" aria-live="polite"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Customize Panel -->
+          <div class="customize-panel">
+            <div class="customize-header">
+              <svg class="customize-logo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M4 7h16" />
+                <path d="M4 12h16" />
+                <path d="M4 17h16" />
+                <path d="M8 4v4" />
+                <path d="M16 4v4" />
+                <path d="M8 16v4" />
+                <path d="M16 16v4" />
+              </svg>
+              <span>Customize</span>
+            </div>
+
+            <div class="customize-content">
+              <div id="booking-toast" class="toast-message" role="status" aria-live="polite"></div>
+              <div class="f-wrap">
+                <div class="f-section">
+                  <div class="f-group">
+                    <label class="f-label" for="page-title-input">Page title</label>
+                    <input id="page-title-input" type="text" value="Ell - Work Booking Page" maxlength="100" aria-label="Page title input">
+                  </div>
+                  <div class="f-group">
+                    <label class="f-label" for="page-description-input">Page description</label>
+                    <div class="toolbar">
+                      <select aria-label="Text style">
+                        <option>Paragraph</option><option>Heading 1</option><option>Heading 2</option>
+                      </select>
+                      <button type="button" class="toolbar-btn tb-btn" data-format="bold" aria-label="Bold" title="Bold"><b>B</b></button>
+                      <button type="button" class="toolbar-btn tb-btn" data-format="italic" aria-label="Italic" title="Italic"><i>I</i></button>
+                      <button type="button" class="toolbar-btn tb-btn" data-format="underline" aria-label="Underline" title="Underline"><u>U</u></button>
+                      <button type="button" class="tb-btn" aria-label="More options">&#8943;</button>
+                    </div>
+                    <textarea id="page-description-input" class="textarea-notop customize-textarea" maxlength="500" rows="5" aria-label="Page description input">This is the booking page for Ell - Work.</textarea>
+                  </div>
+                  <div class="btn-row">
+                    <button type="button" id="preview-btn" class="btn-outline" aria-label="Preview booking page">Preview</button>
+                    <button type="button" id="share-link-btn" class="btn-filled" aria-label="Share booking page link">Share link</button>
+                  </div>
+                </div>
+
+                <div class="f-section">
+                  <div class="f-sec-title">Images</div>
+                  <div id="upload-image-btn" class="upload-area" role="button" tabindex="0" aria-label="Upload new image">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                      <polyline points="17 8 12 3 7 8"/>
+                      <line x1="12" y1="3" x2="12" y2="15"/>
+                    </svg>
+                    Upload new image
+                  </div>
+                  <input type="file" id="image-file-input" accept="image/jpeg,image/png,image/gif" hidden aria-label="Image file input" />
+                </div>
+
+                <div class="f-section">
+                  <div class="f-sec-title">UI settings</div>
+                  <div class="f-row">
+                    <div class="f-group">
+                      <label class="f-label">Global page font family</label>
+                      <select><option>Sans-serif</option><option>Serif</option><option>Monospace</option></select>
+                    </div>
+                    <div class="f-group">
+                      <label class="f-label">Global page font size</label>
+                      <select><option>Small</option><option selected>Medium</option><option>Large</option></select>
+                    </div>
+                  </div>
+                  <div class="f-group">
+                    <label class="f-label">Carousel image size</label>
+                    <select><option>Small</option><option selected>Medium</option><option>Large</option></select>
+                  </div>
+                  <div class="f-row">
+                    <div class="f-group">
+                      <label class="f-label">Title position</label>
+                      <select><option selected>Center</option><option>Left</option><option>Right</option></select>
+                    </div>
+                    <div class="f-group">
+                      <label class="f-label">Main title font</label>
+                      <select><option>Sans-serif</option><option>Serif</option></select>
+                    </div>
+                  </div>
+                  <div class="f-row">
+                    <div class="f-group">
+                      <label class="f-label">Description alignment</label>
+                      <select><option selected>Left</option><option>Center</option><option>Right</option></select>
+                    </div>
+                    <div class="f-group">
+                      <label class="f-label">Main title font size</label>
+                      <select><option>Medium</option><option selected>Large</option><option>XL</option></select>
+                    </div>
+                  </div>
+                  <div class="f-group">
+                    <label class="f-label">Color options</label>
+                    <div class="swatches">
+                      <div class="swatch" style="background:#f1f5f9;"></div>
+                      <div class="swatch active" style="background:#1e293b;"></div>
+                      <div class="swatch" style="background:#2563eb;"></div>
+                      <div class="swatch" style="background:#0f172a;"></div>
+                      <div class="swatch" style="background:#334155;"></div>
+                      <div class="swatch" style="background:#475569;"></div>
+                      <div class="swatch" style="background:#64748b;"></div>
+                    </div>
+                  </div>
+                  <div class="f-group" style="margin-bottom:0;">
+                    <label class="f-label">Date selector settings</label>
+                    <div class="swatches">
+                      <div class="dswatch active" style="background:#1e293b;"></div>
+                      <div class="dswatch" style="background:#2563eb;"></div>
+                      <div class="dswatch" style="background:#e0ecff; border-color:#93c5fd;"></div>
+                      <div class="dswatch" style="background:#bfdbfe; border-color:#93c5fd;"></div>
+                      <div class="dswatch" style="background:#e2e8f0; border-color:#cbd5e1;"></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="f-section">
+                  <div class="f-sec-title">Schedule card style settings</div>
+                  <div class="f-row">
+                    <div class="f-group">
+                      <label class="f-label">Schedule card font</label>
+                      <select><option>Sans-serif</option><option>Serif</option></select>
+                    </div>
+                    <div class="f-group">
+                      <label class="f-label">Schedule card font size</label>
+                      <select><option>Small</option><option selected>Medium</option><option>Large</option></select>
+                    </div>
+                  </div>
+                  <div class="f-group">
+                    <label class="f-label">Schedule card button text</label>
+                    <input type="text" value="Book Now">
+                  </div>
+                  <div class="f-sec-title" style="margin-top:4px;">Schedule card alignment settings</div>
+                  <div class="f-row">
+                    <div class="f-group">
+                      <label class="f-label">Class title alignment (card)</label>
+                      <select><option selected>Left</option><option>Center</option><option>Right</option></select>
+                    </div>
+                    <div class="f-group">
+                      <label class="f-label">Info alignment (card)</label>
+                      <select><option selected>Left</option><option>Center</option><option>Right</option></select>
+                    </div>
+                  </div>
+                  <div class="f-row">
+                    <div class="f-group">
+                      <label class="f-label">Font family info</label>
+                      <select><option>Sans-serif</option><option>Serif</option></select>
+                    </div>
+                    <div class="f-group">
+                      <label class="f-label">Button alignment (card)</label>
+                      <select><option>Left</option><option selected>Center</option><option>Right</option></select>
+                    </div>
+                  </div>
+                  <div class="f-group" style="margin-bottom:0;">
+                    <label class="f-label">Button border radius</label>
+                    <select><option>Small</option><option selected>Medium</option><option>Large</option><option>Full</option></select>
+                  </div>
+                </div>
+
+                <div class="f-section">
+                  <div class="f-sec-title">Schedule card image settings</div>
+                  <div class="f-group">
+                    <label class="checkbox-row">
+                      <input type="checkbox" checked>
+                      <span>Show image on card</span>
+                    </label>
+                  </div>
+                  <div class="f-group">
+                    <label class="f-label">Image fit card</label>
+                    <select><option selected>Cover</option><option>Contain</option><option>Fill</option></select>
+                  </div>
+                  <div class="f-group" style="margin-bottom:0;">
+                    <label class="f-label">Image height card</label>
+                    <select><option>Small</option><option>Medium</option><option selected>Large</option></select>
+                  </div>
+                </div>
+              </div>
+              <div class="save-action-panel">
+                <button type="button" id="save-button" class="btn-save">Save all change</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Components -->
+  <script src="js/components/sidebar.js"></script>
+  <script src="js/components/topbar.js"></script>
+  
+  <!-- Page specific scripts -->
+  <script src="js/booking-page.js"></script>
+</body>
+</html>
